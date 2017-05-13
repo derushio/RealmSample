@@ -4,7 +4,6 @@ import android.content.Context;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -50,7 +49,7 @@ public class RealmManager {
 
     /**
      * 非同期で実行して下さい
-     * @param rObject
+     * @param objClass
      */
     public synchronized RealmObject loadRObject(Class objClass) {
         RealmResults rResults;
