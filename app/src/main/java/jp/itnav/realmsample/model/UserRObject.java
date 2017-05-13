@@ -2,13 +2,16 @@ package jp.itnav.realmsample.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by derushio on 2017/05/13.
  */
 
-public class UserRObjects extends RealmObject {
+public class UserRObject extends RealmObject {
 
+    @PrimaryKey
+    private int id;
     private String name;
     private int age;
 

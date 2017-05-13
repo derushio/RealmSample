@@ -4,8 +4,6 @@ import android.content.Context;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
-import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
  * Created by derushio on 2017/05/13.
@@ -16,13 +14,13 @@ public class RealmManager {
 
     private Context context;
 
-    private RealmManager() {
-        ;
+    private RealmManager(Context context) {
+        Realm.init(context);
     }
 
     public static RealmManager getInstance(Context context) {
         if (instance == null) {
-            instance = new RealmManager();
+            instance = new RealmManager(context);
         }
 
         instance.context = context;
@@ -43,7 +41,6 @@ public class RealmManager {
                 }
             });
         } finally {
-            realm.close();
         }
     }
 
@@ -52,17 +49,17 @@ public class RealmManager {
      * @param objClass
      */
     public synchronized RealmObject loadRObject(Class objClass) {
-        RealmResults rResults;
+        RealmObject object;
 
         Realm realm = Realm.getDefaultInstance();
         try {
-            rResults = realm.where(objClass)
-                .findAllSorted("createAt", Sort.ASCENDING);
-        } finally {
-            realm.close();
+            // ここのfindAllを変更することによりクエリが可能
+            object = (RealmObject) realm.where(objClass).findAll().get(0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            object = null;
         }
 
-        return (RealmObject) rResults.get(0);
+        return object;
     }
 
 }
